@@ -2,7 +2,7 @@ const data = [
   {
     id: 0,
     details: 'perform task 0',
-    completed: false,
+    completed: true,
   },
   {
     id: 1,

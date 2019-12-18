@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import data from './data';
-import List from './List'
+import List from './List';
 
 class Tasks extends Component {
   constructor(props) {
@@ -13,12 +13,24 @@ class Tasks extends Component {
   componentDidMount() {
     this.setState({ tasks: [...data] });
   }
-
+  handleSubmit = (e) => {
+    e.preventDefault();
+  };
+  onChecked = (id, status) => {
+    console.log(id, status);
+    const helper = this.state.tasks.map((task) =>
+      task.id === id ? (task.completed = !status) : task,
+    );
+    this.setState({ tasks: [...helper] });
+  };
   render() {
-    console.log(this.state.tasks);
-    return <><
-        <List />
-        </>;
+    const { tasks } = this.state;
+    return (
+      <>
+        <List tasks={tasks} onChecked={this.onChecked} />
+        <button onClick={this.handleSubmit}>Show More</button>
+      </>
+    );
   }
 }
 
