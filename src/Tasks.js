@@ -18,13 +18,20 @@ class Tasks extends Component {
   };
   onChecked = (id, status) => {
     console.log(id, status);
-    const helper = this.state.tasks.map((task) =>
-      task.id === id ? (task.completed = !status) : task,
-    );
+    const helper = this.state.tasks.map((task) => {
+      if (task.id === id) {
+        let aux = { ...task };
+        aux.completed = !status;
+        return aux;
+      }
+      return task;
+    });
+
     this.setState({ tasks: [...helper] });
   };
   render() {
     const { tasks } = this.state;
+    console.log(tasks);
     return (
       <>
         <List tasks={tasks} onChecked={this.onChecked} />
