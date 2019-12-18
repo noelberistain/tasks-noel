@@ -44,11 +44,6 @@ const data = [
     details: 'perform task 8',
     completed: false,
   },
-  {
-    id: 9,
-    details: 'perform task 9',
-    completed: false,
-  },
 ];
 
 export default data;

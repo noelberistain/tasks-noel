@@ -28,7 +28,7 @@ class Tasks extends Component {
     e.preventDefault();
     const { end } = this.state;
     const showing = this.slicing();
-    this.setState({ tasks: [...showing], start: end, end: end + 5 });
+    this.setState({ tasks: [...showing], start: end + 1, end: end + 5 });
   };
 
   onChecked = (id, status) => {
@@ -43,14 +43,36 @@ class Tasks extends Component {
     this.setState({ tasks: [...helper] });
   };
 
+  containerStyle = {
+    listStyleType: 'none',
+    padding: '1rem',
+    margin: '5px auto',
+    backgroundColor: 'lightblue',
+    textAlign: 'center',
+    width: '30%',
+  };
+
+  buttonStyle = {
+    backgroundColor: '#4CAF50',
+    border: 'none',
+    color: 'white',
+    padding: '15px 32px',
+    textAlign: 'center',
+    textDecoration: 'none',
+    display: 'inline-block',
+    fontSize: '16px',
+  };
+
   render() {
-    const { tasks, start, end } = this.state;
-    console.log(start, end);
+    const { tasks } = this.state;
     return (
-      <>
+      <div style={this.containerStyle}>
+        <h2 style={{ color: 'blue' }}>TASKS: </h2>
         <List tasks={tasks} onChecked={this.onChecked} />
-        <button onClick={this.handleSubmit}>Show More</button>
-      </>
+        <button style={this.buttonStyle} onClick={this.handleSubmit}>
+          Show More
+        </button>
+      </div>
     );
   }
 }
