@@ -11,19 +11,26 @@ class List extends React.Component {
   };
 
   render() {
-    const { tasks, onChecked } = this.props;
+    const { tasks, onChecked, step, end } = this.props;
     const list =
       tasks.length > 0
-        ? tasks.map((task) => (
-            <li key={task.id} style={this.itemStyle}>
-              <input
-                type='checkbox'
-                onChange={() => onChecked(task.id, task.completed)}
-                checked={task.completed}
-              />
-              {task.details}
-            </li>
-          ))
+        ? tasks
+            .filter((e, idx) => {
+              if (idx >= step && idx < end) {
+                return true;
+              }
+              return false;
+            })
+            .map((task) => (
+              <li key={task.id} style={this.itemStyle}>
+                <input
+                  type='checkbox'
+                  onChange={() => onChecked(task.id, task.completed)}
+                  checked={task.completed}
+                />
+                {task.details}
+              </li>
+            ))
         : 'no tasks';
     return <ul style={this.ulStyle}>{list}</ul>;
   }

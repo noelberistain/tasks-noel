@@ -5,21 +5,11 @@ import List from './List';
 class Tasks extends Component {
   constructor(props) {
     super(props);
-    this.state = { step: 0, end: 5, tasks: [...jsonTasks], chunk: [] };
+    this.state = { step: 0, end: 5, tasks: [...jsonTasks] };
   }
-
-  componentDidMount() {
-    const { step, end } = this.state;
-    const aux = [...jsonTasks].filter((e, step) => step < end);
-    console.log(aux);
-    this.setState({
-      chunk: [...aux],
-    });
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState((prev) => ({ step: prev.step + 5, end: prev.end + 5 }));
+    this.setState({ step: this.state.step + 5, end: this.state.end + 5 });
   };
 
   onChecked = (id, status) => {
@@ -27,12 +17,15 @@ class Tasks extends Component {
       if (task.id === id) {
         let aux = { ...task };
         aux.completed = !status;
-        console.log('task modified', aux);
         return aux;
       }
       return task;
     });
     this.setState({ tasks: [...helper] });
+  };
+
+  init = () => {
+    this.setState({ step: 0, end: 5 });
   };
   containerStyle = {
     listStyleType: 'none',
@@ -55,26 +48,19 @@ class Tasks extends Component {
   };
 
   render() {
-    const { chunk, step, end, tasks } = this.state;
-    console.log(
-      'TCL: Tasks -> render -> chunk,step,end,tasks',
-      chunk,
-      step,
-      end,
-      tasks,
-    );
+    const { step, end, tasks } = this.state;
     return (
       <div style={this.containerStyle}>
         <h2 style={{ color: 'blue' }}>TASKS: </h2>
-        <List tasks={chunk} onChecked={this.onChecked} />
-        {step <= tasks.length ? (
+        <List tasks={tasks} onChecked={this.onChecked} step={step} end={end} />
+        {end < tasks.length ? (
           <button style={this.buttonStyle} onClick={this.handleSubmit}>
             Show More
           </button>
         ) : (
           <button style={this.buttonStyle} onClick={this.init}>
             {' '}
-            Reset
+            Watch Again
           </button>
         )}
       </div>
