@@ -1,7 +1,6 @@
 import React from 'react';
 
 class List extends React.Component {
-  //   const {tasks,onChecked} = this.props
   ulStyle = {
     listStyleType: 'none',
     padding: '2rem',
@@ -15,11 +14,11 @@ class List extends React.Component {
     const { tasks, onChecked } = this.props;
     const list =
       tasks.length > 0
-        ? tasks.map((task, idx) => (
-            <li key={idx} style={this.itemStyle}>
+        ? tasks.map((task) => (
+            <li key={task.id} style={this.itemStyle}>
               <input
                 type='checkbox'
-                onChange={() => onChecked(idx, task.completed)}
+                onChange={() => onChecked(task.id, task.completed)}
                 checked={task.completed}
               />
               {task.details}
