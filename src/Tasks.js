@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import data from './data';
+import { tasks } from './data';
 import List from './List';
 
 class Tasks extends Component {
@@ -9,18 +9,19 @@ class Tasks extends Component {
       start: 0,
       end: 5,
       tasks: [],
+      chunk: [],
     };
   }
 
   componentDidMount() {
     const showing = this.slicing();
     const { end } = this.state;
-    this.setState({ tasks: [...showing], start: end, end: end + 5 });
+    this.setState({ chunk: [...showing], start: end, end: end + 5 });
   }
 
   slicing = () => {
     const { start, end } = this.state;
-    const showing = [...data].slice(start, end);
+    const showing = [...tasks].slice(start, end);
     return showing;
   };
 
@@ -28,7 +29,7 @@ class Tasks extends Component {
     e.preventDefault();
     const { end } = this.state;
     const showing = this.slicing();
-    this.setState({ tasks: [...showing], start: end + 1, end: end + 5 });
+    this.setState({ chunk: [...showing], start: end + 1, end: end + 5 });
   };
 
   onChecked = (id, status) => {
@@ -64,14 +65,20 @@ class Tasks extends Component {
   };
 
   render() {
-    const { tasks } = this.state;
+    const { chunk } = this.state;
     return (
       <div style={this.containerStyle}>
         <h2 style={{ color: 'blue' }}>TASKS: </h2>
-        <List tasks={tasks} onChecked={this.onChecked} />
-        <button style={this.buttonStyle} onClick={this.handleSubmit}>
-          Show More
-        </button>
+        <List tasks={chunk} onChecked={this.onChecked} />
+        {chunk.length === 5 ? (
+          <button style={this.buttonStyle} onClick={this.handleSubmit}>
+            Show More
+          </button>
+        ) : (
+          <button tyle={this.buttonStyle} disabled>
+            No more tasks
+          </button>
+        )}
       </div>
     );
   }
